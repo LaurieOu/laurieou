@@ -1,10 +1,10 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 import Home from "./containers/Home";
-import Login from "./containers/Login";
 import NotFound from "./containers/NotFound";
 import AppliedRoute from "./components/AppliedRoute";
-import Signup from "./containers/Signup";
+import Signup from "./user/containers/SignUp";
+import Login from "./user/containers/Login";
 
 
 export default ({ childProps }) =>

@@ -1,15 +1,13 @@
 import React, { Component } from "react";
+import {bindActionCreators} from 'redux';
 import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
-import LoaderButton from "../components/LoaderButton";
-import config from "../config";
+import { connect } from 'react-redux';
+import LoaderButton from "../../components/LoaderButton";
 import "./Login.css";
-import {
-  CognitoUserPool,
-  AuthenticationDetails,
-  CognitoUser
-} from "amazon-cognito-identity-js";
+import {loginUser} from '../Actions';
 
-export default class Login extends Component {
+
+class Login extends Component {
   constructor(props) {
     super(props);
 
@@ -18,6 +16,8 @@ export default class Login extends Component {
       email: "",
       password: ""
     };
+
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   validateForm() {
@@ -35,31 +35,15 @@ export default class Login extends Component {
 
     this.setState({ isLoading: true });
 
-    try {
-      await this.login(this.state.email, this.state.password);
-      this.props.userHasAuthenticated(true);
-      this.props.history.push("/");
-    } catch (e) {
-      alert(e);
-      this.setState({ isLoading: false });
-    }
-  }
-
-  login(email, password) {
-    const userPool = new CognitoUserPool({
-      UserPoolId: config.cognito.USER_POOL_ID,
-      ClientId: config.cognito.APP_CLIENT_ID
-    });
-    const user = new CognitoUser({ Username: email, Pool: userPool });
-    const authenticationData = { Username: email, Password: password };
-    const authenticationDetails = new AuthenticationDetails(authenticationData);
-
-    return new Promise((resolve, reject) =>
-      user.authenticateUser(authenticationDetails, {
-        onSuccess: result => resolve(),
-        onFailure: err => reject(err)
-      })
-    );
+    this.props.loginUser({"email": this.state.email, "password": this.state.password});
+    // try {
+    //   console.log("this.props", this.props);
+    //   this.props.userHasAuthenticated(true);
+    //   this.props.history.push("/");
+    // } catch (e) {
+    //   alert(e);
+    //   this.setState({ isLoading: false });
+    // }
   }
 
   render() {
@@ -97,3 +81,17 @@ export default class Login extends Component {
     );
   }
 }
+
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({loginUser}, dispatch);
+}
+
+// const mapDispatchToProps = {
+//   loginUser
+// };
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Login)
