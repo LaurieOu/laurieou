@@ -5,7 +5,7 @@ import {UserReducer} from './user/Reducer';
 const initialState = {};
 
 const innerReducer = combineReducers({
-  UserReducer,
+  user: UserReducer,
 });
 
 const reducer = (state = Immutable.fromJS({}), action) => {

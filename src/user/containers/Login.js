@@ -83,15 +83,25 @@ class Login extends Component {
 }
 
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({loginUser}, dispatch);
+// function mapDispatchToProps(dispatch) {
+//   return bindActionCreators({loginUser}, dispatch);
+// }
+
+const mapDispatchToProps = {
+  loginUser
+};
+
+//takes values from the global store and maps it to current component's props
+const mapStateToProps = state => {
+  console.log("state.getIn", state.getIn(["user", "userInfo"]));
+  //state looks like {user: {userInfo: {stuff...}}} where user is the reducer and userInfo is the state of the userReducer
+  const user = state.getIn(["user","userInfo"]);
+  return {
+    user
+  }
 }
 
-// const mapDispatchToProps = {
-//   loginUser
-// };
-
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Login)
