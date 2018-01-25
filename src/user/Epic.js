@@ -1,6 +1,6 @@
 import { combineEpics } from 'redux-observable';
 import { FETCH_USER, SIGN_UP_USER, LOGIN_USER } from './Constants';
-import { fetchUserSuccess, fetchUserFailed } from './Actions';
+import { fetchUserSuccess, fetchUserFailed, signupUserSuccess } from './Actions';
 import { ajax } from 'rxjs/observable/dom/ajax';
 import Rx from 'rxjs/Rx';
 import { Observable } from 'rxjs';
@@ -23,8 +23,7 @@ export const signUpUser = actions$ =>
     .ofType(SIGN_UP_USER)
     .mergeMap(action =>
         Rx.Observable.fromPromise(api.signUpUser(action.payload.email, action.payload.password))
-                .map(user => console.log("user", user))
-                .takeUntil(actions$.ofType(SIGN_UP_USER))
+                .map(user => signupUserSuccess(user))
                 .catch(error => Observable.of(fetchUserFailed))
     );
 

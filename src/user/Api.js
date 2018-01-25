@@ -5,34 +5,25 @@ import {
   CognitoUser
 } from "amazon-cognito-identity-js";
 
+const userPool = new CognitoUserPool({
+  UserPoolId: config.cognito.USER_POOL_ID,
+  ClientId: config.cognito.APP_CLIENT_ID
+});
+
 export function signUpUser(email, password) {
-  const userPool = new CognitoUserPool({
-    UserPoolId: config.cognito.USER_POOL_ID,
-    ClientId: config.cognito.APP_CLIENT_ID
-  });
-
-  console.log("email", email);
-  console.log("password", password);
-
-  userPool.signUp(email, password, [], null, function(err, result){
-      console.log("result", result);
+  return new Promise((resolve, reject) =>
+    userPool.signUp(email, password, [], null, (err, result) => {
       if (err) {
-          alert(err);
-          return;
+        reject(err);
+        return;
       }
-      const cognitoUser = result.user;
-      console.log('user name is ' + cognitoUser.getUsername());
-      return cognitoUser;
-  });
+
+      resolve(result.user);
+    })
+  );
 }
 
 export function login(email, password) {
-  console.log("login email", email);
-  console.log("login password", password);
-  const userPool = new CognitoUserPool({
-    UserPoolId: config.cognito.USER_POOL_ID,
-    ClientId: config.cognito.APP_CLIENT_ID
-  });
   const user = new CognitoUser({ Username: email, Pool: userPool });
   const authenticationData = { Username: email, Password: password };
   const authenticationDetails = new AuthenticationDetails(authenticationData);

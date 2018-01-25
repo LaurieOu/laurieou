@@ -1,14 +1,14 @@
 import Immutable from "immutable";
-import { FETCH_USER, SIGN_UP_USER, LOGIN_USER, FETCH_USER_SUCCESS } from './Constants';
+import { FETCH_USER, SIGN_UP_USER, SIGN_UP_USER_SUCCESS, LOGIN_USER, FETCH_USER_SUCCESS } from './Constants';
 
 
-const InitialState = Immutable.fromJS({userInfo: null});
+const InitialState = Immutable.fromJS({userInfo: null, newUser: null});
 export const UserReducer = (state = InitialState , action) => {
   switch (action.type) {
     case FETCH_USER_SUCCESS:
-      console.log("state", state);
-      console.log("action", action);
       return state.set("userInfo", action.payload);
+    case SIGN_UP_USER_SUCCESS:
+      return state.set("newUser", true);
     default:
       return state
   }

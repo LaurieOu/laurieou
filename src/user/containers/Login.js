@@ -35,15 +35,14 @@ class Login extends Component {
 
     this.setState({ isLoading: true });
 
-    this.props.loginUser({"email": this.state.email, "password": this.state.password});
-    // try {
-    //   console.log("this.props", this.props);
-    //   this.props.userHasAuthenticated(true);
-    //   this.props.history.push("/");
-    // } catch (e) {
-    //   alert(e);
-    //   this.setState({ isLoading: false });
-    // }
+    try {
+      await this.props.loginUser({"email": this.state.email, "password": this.state.password});
+      this.props.userHasAuthenticated(true);
+      this.props.history.push("/");
+    } catch (e) {
+      alert(e);
+      this.setState({ isLoading: false });
+    }
   }
 
   render() {
