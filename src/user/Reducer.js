@@ -8,7 +8,7 @@ export const UserReducer = (state = InitialState , action) => {
     case FETCH_USER_SUCCESS:
       return state.set("userInfo", action.payload);
     case SIGN_UP_USER_SUCCESS:
-      return state.set("newUser", true);
+      return state.set("newUser", action.payload);
     default:
       return state
   }

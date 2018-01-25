@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { signUpUser } from '../Actions';
+import {AuthenticationDetails,CognitoUserPool} from "amazon-cognito-identity-js";
 import {HelpBlock,FormGroup,FormControl,ControlLabel} from "react-bootstrap";
 import LoaderButton from "../../components/LoaderButton";
 import "./SignUp.css";
@@ -51,26 +52,54 @@ class SignUp extends Component {
     this.setState({ isLoading: false });
   }
 
-  // render() {
-  //   return (
-  //     <div>
-  //       <form onSubmit={this.handleSubmit}>
-  //         <h2>TEST</h2>
-  //         <input name="email" placeholder='Email' onChange={this.handleChange} />
-  //         <input name="password" placeholder='Password' onChange={this.handleChange} />
-  //         <input name="confirmPassword" placeholder='Confirm Password' onChange={this.handleChange} />
-  //         <LoaderButton
-  //           block
-  //           bsSize="large"
-  //           type="submit"
-  //           isLoading={this.state.isLoading}
-  //           text="Signup"
-  //           loadingText="Signing up…"
-  //         />
-  //       </form>
-  //     </div>
-  //   );
-  // }
+  handleConfirmationSubmit = async event => {
+    event.preventDefault();
+
+    this.setState({ isLoading: true });
+
+    try {
+      await this.confirm(this.props.newUser, this.state.confirmationCode);
+      await this.authenticate(
+        this.props.newUser,
+        this.state.email,
+        this.state.password
+      );
+
+      this.props.userHasAuthenticated(true);
+      this.props.history.push("/");
+    } catch (e) {
+      alert(e);
+      this.setState({ isLoading: false });
+    }
+  }
+
+  confirm(user, confirmationCode) {
+    return new Promise((resolve, reject) =>
+      user.confirmRegistration(confirmationCode, true, function(err, result) {
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve(result);
+      })
+    );
+  }
+
+  authenticate(user, email, password) {
+    const authenticationData = {
+      Username: email,
+      Password: password
+    };
+    const authenticationDetails = new AuthenticationDetails(authenticationData);
+
+    return new Promise((resolve, reject) =>
+      user.authenticateUser(authenticationDetails, {
+        onSuccess: result => resolve(),
+        onFailure: err => reject(err)
+      })
+    );
+  }
+
 
   renderConfirmationForm() {
     return (
@@ -152,6 +181,7 @@ class SignUp extends Component {
 
 const mapStateToProps = state => {
   const newUser = state.getIn(["user","newUser"]);
+  console.log("newUser", newUser);
   return {
     newUser
   }
