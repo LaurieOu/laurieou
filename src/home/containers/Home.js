@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import {Link, Route} from 'react-router-dom';
 import "./Home.css";
 import { PageHeader, ListGroup } from "react-bootstrap";
-// import { invokeApig } from '../../libs/awsLib';
 import LoaderButton from "../../components/LoaderButton";
 
 
@@ -21,19 +20,7 @@ export default class Home extends Component {
       return;
     }
 
-    try {
-      const results = await this.calendar();
-      this.setState({ calendar: results });
-    } catch (e) {
-      console.log("home.js",e);
-      alert(e);
-    }
-
     this.setState({ isLoading: false });
-  }
-
-  calendar() {
-    // return invokeApig({ path: "/calendar" });
   }
 
   rendercalendarList(calendar) {
@@ -52,14 +39,16 @@ export default class Home extends Component {
   rendercalendar() {
     return (
       <div className="calendar">
-        <PageHeader>Your calendar</PageHeader>
-        <LoaderButton
-          block
-          bsSize="large"
-          type="submit"
-          text="Add a University"
-          loadingText="Signing up…"
-        />
+        <PageHeader>Don't see your school?</PageHeader>
+        <Link to='university/new'>
+          <LoaderButton
+            block
+            bsSize="large"
+            type="submit"
+            text="Add a University"
+            loadingText="Signing up…"
+          />
+        </Link>
       </div>
     );
   }

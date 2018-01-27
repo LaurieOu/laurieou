@@ -3,7 +3,7 @@ import { FormGroup, FormControl, ControlLabel, HelpBlock, Grid, Row, Col, Thumbn
 import LoaderButton from "../../components/LoaderButton";
 import config from "../../config";
 import "./NewUniversity.css";
-// import { invokeApig } from "../../libs/awsLib";
+import { invokeApig } from "../../libs/awsLib";
 
 
 export default class NewUniversity extends Component {
@@ -30,9 +30,7 @@ export default class NewUniversity extends Component {
 
 
     try {
-      await this.createUniversity({
-        content: this.state
-      });
+      await this.createUniversity(this.state);
       this.props.history.push("/");
     } catch (e) {
       console.log("NewUniversity.js",e);
@@ -41,11 +39,11 @@ export default class NewUniversity extends Component {
   }
 
   createUniversity(university) {
-    // return invokeApig({
-    //   path: "University",
-    //   method: "POST",
-    //   body: university
-    // });
+    return invokeApig({
+      path: "/University",
+      method: "POST",
+      body: university
+    });
   }
 
 
