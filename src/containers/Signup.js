@@ -49,6 +49,7 @@ export default class Signup extends Component {
         newUser: newUser
       });
     } catch (e) {
+      console.log("signup.js handleSubmit",e);
       alert(e);
     }
 
@@ -71,6 +72,7 @@ export default class Signup extends Component {
       this.props.userHasAuthenticated(true);
       this.props.history.push("/");
     } catch (e) {
+      console.log("singup.js handleConfirmationSubmit",e);
       alert(e);
       this.setState({ isLoading: false });
     }

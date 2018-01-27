@@ -1,6 +1,0 @@
-export const FETCH_USER = 'FETCH_USER';
-export const FETCH_USER_SUCCESS = 'FETCH_USER_SUCCESS';
-export const FETCH_USER_FAILED = 'FETCH_USER_FAILED';
-export const SIGN_UP_USER = 'SIGN_UP_USER';
-export const LOGIN_USER = "LOGIN_USER";
-export const SIGN_UP_USER_SUCCESS = "SIGN_UP_USER_SUCCESS";

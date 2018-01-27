@@ -1,23 +1,25 @@
 import React, { Component } from "react";
-import {bindActionCreators} from 'redux';
-import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
-import { connect } from 'react-redux';
-import LoaderButton from "../../components/LoaderButton";
+import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import LoaderButton from '../../components/LoaderButton';
+import config from '../../config';
 import "./Login.css";
-import {loginUser} from '../Actions';
+import {
+  CognitoUserPool,
+  AuthenticationDetails,
+  CognitoUser
+} from "amazon-cognito-identity-js";
 
 
-class Login extends Component {
+
+export default class Login extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      isLoading: false,
       email: "",
-      password: ""
+      password: "",
+      isLoading: false,
     };
-
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   validateForm() {
@@ -36,13 +38,31 @@ class Login extends Component {
     this.setState({ isLoading: true });
 
     try {
-      await this.props.loginUser({"email": this.state.email, "password": this.state.password});
+      await this.login(this.state.email, this.state.password);
       this.props.userHasAuthenticated(true);
       this.props.history.push("/");
     } catch (e) {
+      console.log("user/login.js",e);
       alert(e);
       this.setState({ isLoading: false });
     }
+  }
+
+  login(email, password) {
+    const userPool = new CognitoUserPool({
+      UserPoolId: config.cognito.USER_POOL_ID,
+      ClientId: config.cognito.APP_CLIENT_ID
+    });
+    const user = new CognitoUser({ Username: email, Pool: userPool });
+    const authenticationData = { Username: email, Password: password };
+    const authenticationDetails = new AuthenticationDetails(authenticationData);
+
+    return new Promise((resolve, reject) =>
+      user.authenticateUser(authenticationDetails, {
+        onSuccess: result => resolve(),
+        onFailure: err => reject(err)
+      })
+    );
   }
 
   render() {
@@ -80,27 +100,3 @@ class Login extends Component {
     );
   }
 }
-
-
-// function mapDispatchToProps(dispatch) {
-//   return bindActionCreators({loginUser}, dispatch);
-// }
-
-const mapDispatchToProps = {
-  loginUser
-};
-
-//takes values from the global store and maps it to current component's props
-const mapStateToProps = state => {
-  console.log("state.getIn", state.getIn(["user", "userInfo"]));
-  //state looks like {user: {userInfo: {stuff...}}} where user is the reducer and userInfo is the state of the userReducer
-  const user = state.getIn(["user","userInfo"]);
-  return {
-    user
-  }
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Login)

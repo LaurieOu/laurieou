@@ -1,12 +1,20 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { signUpUser } from '../Actions';
-import {AuthenticationDetails,CognitoUserPool} from "amazon-cognito-identity-js";
-import {HelpBlock,FormGroup,FormControl,ControlLabel} from "react-bootstrap";
+import React, { Component } from "react";
+import {
+  HelpBlock,
+  FormGroup,
+  FormControl,
+  ControlLabel
+} from "react-bootstrap";
 import LoaderButton from "../../components/LoaderButton";
-import "./SignUp.css";
+import "./Signup.css";
+import {
+  AuthenticationDetails,
+  CognitoUserPool
+} from "amazon-cognito-identity-js";
+import config from "../../config";
 
-class SignUp extends Component {
+
+export default class Signup extends Component {
   constructor(props) {
     super(props);
 
@@ -16,9 +24,8 @@ class SignUp extends Component {
       password: "",
       confirmPassword: "",
       confirmationCode: "",
+      newUser: null
     };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   validateForm() {
@@ -41,11 +48,16 @@ class SignUp extends Component {
 
   handleSubmit = async event => {
     event.preventDefault();
+
     this.setState({ isLoading: true });
 
     try {
-      const newUser = await this.props.signUpUser({email: this.state.email, password: this.state.password});
+      const newUser = await this.signup(this.state.email, this.state.password);
+      this.setState({
+        newUser: newUser
+      });
     } catch (e) {
+      console.log("/user/signup.js handleSubmit",e);
       alert(e);
     }
 
@@ -58,9 +70,9 @@ class SignUp extends Component {
     this.setState({ isLoading: true });
 
     try {
-      await this.confirm(this.props.newUser, this.state.confirmationCode);
+      await this.confirm(this.state.newUser, this.state.confirmationCode);
       await this.authenticate(
-        this.props.newUser,
+        this.state.newUser,
         this.state.email,
         this.state.password
       );
@@ -68,9 +80,28 @@ class SignUp extends Component {
       this.props.userHasAuthenticated(true);
       this.props.history.push("/");
     } catch (e) {
+      console.log("user/signup.js handleConfirmationSubmit",e);
       alert(e);
       this.setState({ isLoading: false });
     }
+  }
+
+  signup(email, password) {
+    const userPool = new CognitoUserPool({
+      UserPoolId: config.cognito.USER_POOL_ID,
+      ClientId: config.cognito.APP_CLIENT_ID
+    });
+
+    return new Promise((resolve, reject) =>
+      userPool.signUp(email, password, [], null, (err, result) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+
+        resolve(result.user);
+      })
+    );
   }
 
   confirm(user, confirmationCode) {
@@ -99,7 +130,6 @@ class SignUp extends Component {
       })
     );
   }
-
 
   renderConfirmationForm() {
     return (
@@ -171,27 +201,10 @@ class SignUp extends Component {
   render() {
     return (
       <div className="Signup">
-        {this.props.newUser === null
+        {this.state.newUser === null
           ? this.renderForm()
           : this.renderConfirmationForm()}
       </div>
     );
   }
 }
-
-const mapStateToProps = state => {
-  const newUser = state.getIn(["user","newUser"]);
-  console.log("newUser", newUser);
-  return {
-    newUser
-  }
-};
-
-const mapDispatchToProps = {
-  signUpUser
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SignUp);
