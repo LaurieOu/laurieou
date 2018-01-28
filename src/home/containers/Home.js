@@ -29,6 +29,10 @@ export default class Home extends Component {
     });
   }
 
+  searchUniversity = event => {
+    this.props.history.push(`/university/${this.state.universityName}`);
+  }
+
   rendercalendarList(calendar) {
     return null;
   }
@@ -51,7 +55,7 @@ export default class Home extends Component {
           placeholder="Search for your school"
           onChange={this.handleChange}
         />
-        <button className="btn btn-link search-btn">
+        <button className="btn btn-link search-btn" onClick={this.searchUniversity}>
             <i className="glyphicon glyphicon-search"></i>
         </button>
       </FormGroup>
