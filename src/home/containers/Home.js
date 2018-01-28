@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import {Link, Route} from 'react-router-dom';
 import "./Home.css";
-import { PageHeader, ListGroup } from "react-bootstrap";
+import { PageHeader, ListGroup, FormGroup, FormControl } from "react-bootstrap";
 import LoaderButton from "../../components/LoaderButton";
 
 
@@ -11,7 +11,7 @@ export default class Home extends Component {
 
     this.state = {
       isLoading: true,
-      calendar: []
+      universityName: null
     };
   }
 
@@ -23,6 +23,12 @@ export default class Home extends Component {
     this.setState({ isLoading: false });
   }
 
+  handleChange = event => {
+    this.setState({
+      [event.target.id]: event.target.value
+    });
+  }
+
   rendercalendarList(calendar) {
     return null;
   }
@@ -31,7 +37,7 @@ export default class Home extends Component {
     return (
       <div className="lander">
         <h1>Scratch</h1>
-        <p>A simple note taking app</p>
+        <p>The best source of info for your education</p>
       </div>
     );
   }
@@ -39,6 +45,18 @@ export default class Home extends Component {
   rendercalendar() {
     return (
       <div className="calendar">
+      <FormGroup controlId="universityName">
+        <FormControl
+          type="text"
+          placeholder="Search for your school"
+          onChange={this.handleChange}
+        />
+        <button className="btn btn-link search-btn">
+            <i className="glyphicon glyphicon-search"></i>
+        </button>
+      </FormGroup>
+
+
         <PageHeader>Don't see your school?</PageHeader>
         <Link to='university/new'>
           <LoaderButton
