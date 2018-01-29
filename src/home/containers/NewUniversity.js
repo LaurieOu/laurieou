@@ -35,7 +35,6 @@ export default class NewUniversity extends Component {
         Description: this.state.Description,
         Attachment: this.state.Attachment,
       }
-      console.log("apiData", apiData);
       await this.createUniversity(apiData);
       this.props.history.push("/");
     } catch (e) {

@@ -17,8 +17,10 @@ const initialState = Immutable.fromJS({universityOverview: null,});
 export const universityReducer = (state = initialState, action) => {
   switch(action.type) {
     case SEARCH_UNIVERSITY_SUCCESS:
-      console.log("action", action);
-      return state.set("universityOverview": action.payload);
+      // return Object.assign({}, state, {
+      //   universityOverview: action.payload
+      // })
+      return state.set("universityOverview", action.payload);
     case SEARCH_UNIVERSITY_FAILURE:
       return state;
     default:

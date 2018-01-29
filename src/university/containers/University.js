@@ -15,37 +15,31 @@ class University extends Component {
   }
 
   async componentDidMount() {
-    return this.props.searchUniversity({path: `/University/${this.props.match.params.universityName}`});
-    // try {
-    //   const results =
-    //   console.log("this.state.university", this.state.university);
-    // } catch (e) {
-    //   console.log("e",e);
-    //   alert(e);
-    // }
+    this.props.searchUniversity({path: `/University/${this.props.match.params.universityName}`});
   }
 
   render() {
+    console.log("universityOverview", this.props.universityOverview);
     return (
       <div>
-      <Tabs
-      activeKey={this.state.key}
-      onSelect={this.handleSelect}
-      id="controlled-tab-example"
-      >
-        <Tab eventKey={1} title="Overview">
-          <UniversityOverview/>
-        </Tab>
-        <Tab eventKey={2} title="Salaries">
-          Tab 2 content
-        </Tab>
-        <Tab eventKey={3} title="Advice">
-          Tab 3 content
-        </Tab>
-        <Tab eventKey={4} title="Photos">
-          Tab 4 content
-        </Tab>
-      </Tabs>
+        <Tabs
+        activeKey={this.state.key}
+        onSelect={this.handleSelect}
+        id="controlled-tab-example"
+        >
+          <Tab eventKey={1} title="Overview">
+            <UniversityOverview universityOverview={this.props.universityOverview}/>
+          </Tab>
+          <Tab eventKey={2} title="Salaries">
+            Tab 2 content
+          </Tab>
+          <Tab eventKey={3} title="Advice">
+            Tab 3 content
+          </Tab>
+          <Tab eventKey={4} title="Photos">
+            Tab 4 content
+          </Tab>
+        </Tabs>
       </div>
     )
   }
@@ -56,7 +50,6 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  console.log("state", state);
   const universityOverview = state.getIn(["university", "universityOverview"]);
   return {
     universityOverview,

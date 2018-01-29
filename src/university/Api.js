@@ -1,6 +1,6 @@
 import { invokeApig } from '../libs/awsLib';
 
 
-export function searchUniversity(path) {
+export async function searchUniversity(path) {
   return invokeApig(path);
 }

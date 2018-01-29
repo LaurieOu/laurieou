@@ -58,7 +58,6 @@ function getAwsCredentials(userToken) {
       [authenticator]: userToken
     }
   });
-  console.log("AWS.config", AWS.config);
   return AWS.config.credentials.getPromise();
 }
 
