@@ -30,7 +30,13 @@ export default class NewUniversity extends Component {
 
 
     try {
-      await this.createUniversity(this.state);
+      const apiData = {
+        Name: this.state.Name.replace(/ /g,''),
+        Description: this.state.Description,
+        Attachment: this.state.Attachment,
+      }
+      console.log("apiData", apiData);
+      await this.createUniversity(apiData);
       this.props.history.push("/");
     } catch (e) {
       console.log("NewUniversity.js",e);
