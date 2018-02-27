@@ -4,6 +4,9 @@ import { Tabs, Tab } from "react-bootstrap";
 import {connect} from 'react-redux';
 import UniversityOverview from './UniversityOverview';
 import {searchUniversity} from '../Redux';
+import UniversitySalary from '../../salary/containers/UniversitySalary';
+import { Link } from "react-router-dom";
+
 
 
 class University extends Component {
@@ -12,14 +15,20 @@ class University extends Component {
     this.state = {
       university: null
     }
+
+    // this.handleSelect = this.handleSelect.bind(this);
   }
 
-  async componentDidMount() {
-    this.props.searchUniversity({path: `/University/${this.props.match.params.universityName}`});
-  }
+  // handleSelect(key) {
+  //   this.props.history.push(`/university/${this.props.match.params.universityName}/${key}`);
+  // }
+
+  // async componentDidMount() {
+  //   this.props.searchUniversity({path: `/University/${this.props.match.params.universityName}`});
+  // }
 
   render() {
-    console.log("universityOverview", this.props.universityOverview);
+    console.log("this.props", this.props);
     return (
       <div>
         <Tabs
@@ -27,16 +36,16 @@ class University extends Component {
         onSelect={this.handleSelect}
         id="controlled-tab-example"
         >
-          <Tab eventKey={1} title="Overview">
+          <Tab eventKey="Overview" title="Overview">
             <UniversityOverview universityOverview={this.props.universityOverview}/>
           </Tab>
-          <Tab eventKey={2} title="Salaries">
-            Tab 2 content
+          <Tab eventKey="salaries" title="Salaries">
+            <UniversitySalary universityName={this.props.match.params.universityName}/>
           </Tab>
-          <Tab eventKey={3} title="Advice">
+          <Tab eventKey="Advice" title="Advice">
             Tab 3 content
           </Tab>
-          <Tab eventKey={4} title="Photos">
+          <Tab eventKey="Photos" title="Photos">
             Tab 4 content
           </Tab>
         </Tabs>

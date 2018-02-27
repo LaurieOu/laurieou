@@ -82,6 +82,7 @@ export async function invokeApig({
   body
 }) {
   if (!await authUser()) {
+    console.log("user is not logged in");
     throw new Error("User is not logged in");
   }
 
@@ -104,11 +105,15 @@ export async function invokeApig({
   body = body ? JSON.stringify(body) : body;
   headers = signedRequest.headers;
 
+  console.log("body", body);
+
   const results = await fetch(signedRequest.url, {
     method,
     headers,
     body
   });
+
+  console.log("results", results);
 
   if (results.status !== 200) {
     throw new Error(await results.text());

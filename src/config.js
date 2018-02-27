@@ -1,6 +1,6 @@
 export default {
   apiGateway: {
-    URL: "https://ythbnjjml6.execute-api.us-east-1.amazonaws.com/prod",
+    URL: "https://universe-city-api.com",
     REGION: "us-east-1"
   },
   cognito: {

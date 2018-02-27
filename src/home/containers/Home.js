@@ -49,16 +49,17 @@ export default class Home extends Component {
   rendercalendar() {
     return (
       <div className="calendar">
-      <FormGroup controlId="universityName">
-        <FormControl
-          type="text"
-          placeholder="Search for your school"
-          onChange={this.handleChange}
-        />
-        <button className="btn btn-link search-btn" onClick={this.searchUniversity}>
-            <i className="glyphicon glyphicon-search"></i>
-        </button>
-      </FormGroup>
+      
+        <FormGroup controlId="universityName">
+          <FormControl
+            type="text"
+            placeholder="Search for your school"
+            onChange={this.handleChange}
+          />
+          <button className="btn btn-link search-btn" onClick={this.searchUniversity}>
+              <i className="glyphicon glyphicon-search"></i>
+          </button>
+        </FormGroup>
 
 
         <PageHeader>Don't see your school?</PageHeader>

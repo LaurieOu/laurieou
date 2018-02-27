@@ -11,6 +11,5 @@ const q = {
    date: '2016-12-14'
 };
 qpx.query(q).then((data) => {
-  console.log("data", data);
   //data looks like: [ { airline: 'SK', price: 'EUR71.10' } ]
 }).catch(console.error);
