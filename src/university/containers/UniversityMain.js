@@ -23,9 +23,9 @@ class University extends Component {
   //   this.props.history.push(`/university/${this.props.match.params.universityName}/${key}`);
   // }
 
-  // async componentDidMount() {
-  //   this.props.searchUniversity({path: `/University/${this.props.match.params.universityName}`});
-  // }
+  async componentDidMount() {
+    this.props.searchUniversity({path: `/University/${this.props.match.params.universityName}`});
+  }
 
   render() {
     console.log("this.props", this.props);
@@ -40,7 +40,7 @@ class University extends Component {
             <UniversityOverview universityOverview={this.props.universityOverview}/>
           </Tab>
           <Tab eventKey="salaries" title="Salaries">
-            <UniversitySalary universityName={this.props.match.params.universityName}/>
+            <UniversitySalary/>
           </Tab>
           <Tab eventKey="Advice" title="Advice">
             Tab 3 content

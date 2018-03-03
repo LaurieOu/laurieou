@@ -36,8 +36,7 @@ class NewSalary extends Component {
         Major: this.state.Major,
         GraduationYear: this.state.GraduationYear,
         CompanyName: this.state.CompanyName,
-        UniverityName: this.props.universityName,
-        UserId: "laurieou5@gmail.com"
+        UniversityName: this.props.universityName,
       }
       await this.createSalary(apiData);
     } catch (e) {

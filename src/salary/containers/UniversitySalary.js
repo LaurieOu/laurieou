@@ -23,6 +23,9 @@ class UniversitySalary extends Component {
   }
 
   render() {
+    if(!(this.props.universityOverview)){
+      return (<div>Loading...</div>)
+    }
     return(
       <div>
         <FormGroup controlId="Major">
@@ -35,7 +38,7 @@ class UniversitySalary extends Component {
             <i className="glyphicon glyphicon-search"></i>
           </button>
         </FormGroup>
-        <NewSalary />
+        <NewSalary universityName={this.props.universityOverview.Name}/>
       </div>
     )
   }
@@ -48,9 +51,12 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state, ownProps) => {
   const salaryInfoByMajor = state.getIn(['salary', 'salaryInfoByMajor']);
+  const universityOverview = state.getIn(["university", "universityOverview"]);
   console.log("salaryInfoByMajor", salaryInfoByMajor);
+  console.log("universityOverview", universityOverview);
   return {
-    salaryInfoByMajor
+    salaryInfoByMajor,
+    universityOverview
   }
 };
 
