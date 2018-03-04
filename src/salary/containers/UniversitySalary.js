@@ -3,6 +3,7 @@ import { PageHeader, ListGroup, FormGroup, FormControl, Button } from "react-boo
 import {connect} from 'react-redux';
 import {searchSalaryByMajor} from '../Redux';
 import NewSalary from './NewSalary';
+import SalaryChart from './SalaryChart';
 
 
 class UniversitySalary extends Component {
@@ -38,6 +39,7 @@ class UniversitySalary extends Component {
             <i className="glyphicon glyphicon-search"></i>
           </button>
         </FormGroup>
+        <SalaryChart salaryInfoByMajor={this.props.salaryInfoByMajor}/>
         <NewSalary universityName={this.props.universityOverview.Name}/>
       </div>
     )
@@ -52,8 +54,6 @@ const mapDispatchToProps = {
 const mapStateToProps = (state, ownProps) => {
   const salaryInfoByMajor = state.getIn(['salary', 'salaryInfoByMajor']);
   const universityOverview = state.getIn(["university", "universityOverview"]);
-  console.log("salaryInfoByMajor", salaryInfoByMajor);
-  console.log("universityOverview", universityOverview);
   return {
     salaryInfoByMajor,
     universityOverview

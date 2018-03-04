@@ -25,7 +25,6 @@ class NewSalary extends Component {
   }
 
   handleSubmit = async event => {
-    console.log("submitting form");
     event.preventDefault();
 
 
