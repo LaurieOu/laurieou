@@ -4,7 +4,7 @@ import { Tabs, Tab } from "react-bootstrap";
 import {connect} from 'react-redux';
 import UniversityOverview from './UniversityOverview';
 import {searchUniversity} from '../Redux';
-import UniversitySalary from '../../salary/containers/UniversitySalary';
+import UniversitySalary from '../../salary/containers/SalaryTab';
 import { Link } from "react-router-dom";
 
 

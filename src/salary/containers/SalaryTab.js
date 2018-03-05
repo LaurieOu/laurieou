@@ -4,28 +4,43 @@ import {connect} from 'react-redux';
 import {searchSalaryByMajor} from '../Redux';
 import NewSalary from './NewSalary';
 import SalaryChart from './SalaryChart';
+import SalaryByOccupation from './SalaryByOccupation';
 
 
-class UniversitySalary extends Component {
+class SalaryTab extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      Major: ''
+    }
   }
 
   handleChange = event => {
     this.setState({
-      [event.target.id]: event.target.value
+      Major: event.target.value
     });
   }
 
 
   searchSalaryByMajor = async event => {
     event.preventDefault();
-    this.props.searchSalaryByMajor(this.state);
+    this.props.searchSalaryByMajor(this.state.Major);
   }
 
   render() {
     if(!(this.props.universityOverview)){
       return (<div>Loading...</div>)
+    }
+
+    let salaryChart = null;
+    let occupationChart = null;
+    if(this.props.salaryInfoByMajor) {
+      salaryChart = <SalaryChart salaryInfoByMajor={this.props.salaryInfoByMajor} major={this.state.Major}/>;
+      occupationChart = <SalaryByOccupation salaryInfoByMajor={this.props.salaryInfoByMajor} major={this.state.Major}/>
+    } else {
+      salaryChart = <div>Main chart TODO</div>;
+      occupationChart = <div>Main Occupation Chart TODO</div>;
     }
     return(
       <div>
@@ -39,7 +54,10 @@ class UniversitySalary extends Component {
             <i className="glyphicon glyphicon-search"></i>
           </button>
         </FormGroup>
-        <SalaryChart salaryInfoByMajor={this.props.salaryInfoByMajor}/>
+        <div id='MajorInfoBySalaryAndOccupation'>
+          {salaryChart}
+          {occupationChart}
+        </div>
         <NewSalary universityName={this.props.universityOverview.Name}/>
       </div>
     )
@@ -60,4 +78,4 @@ const mapStateToProps = (state, ownProps) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UniversitySalary);
+export default connect(mapStateToProps, mapDispatchToProps)(SalaryTab);

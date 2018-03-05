@@ -6,7 +6,7 @@ import Signup from "./user/containers/Signup";
 import Login from "./user/containers/Login";
 import NewUniversity from "./home/containers/NewUniversity";
 import UniversityMain from "./university/containers/UniversityMain";
-import Salary from "./salary/containers/UniversitySalary";
+import Salary from "./salary/containers/SalaryTab";
 
 
 

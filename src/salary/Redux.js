@@ -18,35 +18,10 @@ const initialState = Immutable.fromJS({salaryInfoByMajor: null})
 export const salaryReducer = (state = initialState, action) => {
   switch(action.type) {
     case SEARCH_SALARY_BY_MAJOR_SUCCESS:
-      var calculatedSalaries = calculateSalaryByMajor(action.payload.Items);
-      return state.set("salaryInfoByMajor", calculatedSalaries)
+      return state.set("salaryInfoByMajor", action.payload.Items)
     case SEARCH_SALARY_BY_MAJOR_FAILURE:
       return state;
     default:
       return state;
   }
-}
-
-
-const calculateSalaryByMajor = (salaryInfoByMajor) => {
-  var data = {}; //{  2015: {salary: '', count:  ''}, 2016: {salary: '', count:  ''} }
-  for(var i=0; i < salaryInfoByMajor.length; i++){
-
-    var currSalaryData = salaryInfoByMajor[i];
-    var currGradYear = currSalaryData.GraduationYear;
-    var currSalary = Number(currSalaryData.Salary);
-    if(data[currGradYear]) {
-      data[currGradYear].salary += currSalary,
-      data[currGradYear].count += 1;
-    } else {
-      data[currGradYear] = { salary: currSalary, count: 1};
-    }
-  }
-
-  var result = [];
-  for(var salaryData in data) {
-    var currResult = {};
-    result.push({name: salaryData, value: data[salaryData].salary / data[salaryData].count, count: data[salaryData].count })
-  }
-  return result;
 }
