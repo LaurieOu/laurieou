@@ -1,9 +1,18 @@
 import React, { Component } from "react";
-import {HelpBlock,FormGroup,FormControl,ControlLabel} from "react-bootstrap";
-import LoaderButton from "../components/LoaderButton";
+import {
+  HelpBlock,
+  FormGroup,
+  FormControl,
+  ControlLabel
+} from "react-bootstrap";
+import LoaderButton from "../../components/LoaderButton";
 import "./Signup.css";
-import {AuthenticationDetails,CognitoUserPool} from "amazon-cognito-identity-js";
-import config from "../config";
+import {
+  AuthenticationDetails,
+  CognitoUserPool
+} from "amazon-cognito-identity-js";
+import config from "../../config";
+
 
 export default class Signup extends Component {
   constructor(props) {
@@ -48,6 +57,7 @@ export default class Signup extends Component {
         newUser: newUser
       });
     } catch (e) {
+      console.log("/user/signup.js handleSubmit",e);
       alert(e);
     }
 
@@ -70,6 +80,7 @@ export default class Signup extends Component {
       this.props.userHasAuthenticated(true);
       this.props.history.push("/");
     } catch (e) {
+      console.log("user/signup.js handleConfirmationSubmit",e);
       alert(e);
       this.setState({ isLoading: false });
     }
@@ -197,9 +208,3 @@ export default class Signup extends Component {
     );
   }
 }
-
-// if you ever need to confirm a user by hand
-// aws cognito-idp admin-confirm-sign-up \
-//    --region us-east-1 \
-//    --user-pool-id YOUR_USER_POOL_ID \
-//    --username YOUR_USER_EMAIL

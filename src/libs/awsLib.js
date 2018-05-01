@@ -58,7 +58,6 @@ function getAwsCredentials(userToken) {
       [authenticator]: userToken
     }
   });
-
   return AWS.config.credentials.getPromise();
 }
 
@@ -83,6 +82,7 @@ export async function invokeApig({
   body
 }) {
   if (!await authUser()) {
+    console.log("user is not logged in");
     throw new Error("User is not logged in");
   }
 

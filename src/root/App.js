@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { Nav, Navbar, NavItem } from "react-bootstrap";
-import RouteNavItem from "./components/RouteNavItem";
-import Routes from "./Routes";
+import RouteNavItem from "../components/RouteNavItem";
+import Routes from "../Routes";
 import "./App.css";
-import { authUser, signOutUser } from "./libs/awsLib";
+import { authUser, signOutUser } from "../libs/awsLib";
 
 
 class App extends Component {
@@ -24,7 +24,8 @@ class App extends Component {
         }
       }
       catch(e) {
-        alert(e);
+        console.log("app.js",e);
+        // alert(e);
       }
 
       this.setState({ isAuthenticating: false });
@@ -53,7 +54,7 @@ class App extends Component {
         <Navbar fluid collapseOnSelect>
           <Navbar.Header>
             <Navbar.Brand>
-              <Link to="/">Scratch</Link>
+              <Link to="/">University</Link>
             </Navbar.Brand>
             <Navbar.Toggle />
           </Navbar.Header>
